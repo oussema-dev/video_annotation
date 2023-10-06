@@ -1,25 +1,26 @@
 # Video Annotation Tool
 
 ## Overview
-This Python application is designed to annotate sections of a video with desired classes or labels. The annotations are saved to a CSV file for later analysis.
+This Python application is designed to annotate sections of a video with the desired classes or labels. The annotations are saved to a CSV file for later analysis.
 
 ## Getting Started
 
 ### Prerequisites
-Before running the application, ensure you have the required dependencies installed. You can install them using pip and the provided `requirements.txt` file:
-```bash
-pip install -r requirements.txt
-```
+Before running the application, follow the next steps to create an environment using conda and install the required dependecies:
+
+From the terminal, `cd` to `video_annotation`, then run the following commands:
+- `conda create --name annotate python=3.11 -y`
+- `conda activate annotate`
+- `pip install -r requirements.txt`
+
 ### Usage
 To start the application, open your terminal and run the following command from the project directory:
 ```bash
 python annotate_video.py
 ```
+Note that you should have a file called `buttons.txt` where you specify the desired button names for your use case.
 
 ## Features
-
-### Add Custom Buttons
-- You can specify custom button names when you start the application. These buttons are used to annotate frames with labels or classes.
 
 ### Play/Pause
 - Use the "Play" button to start playing the video.

@@ -3,30 +3,7 @@ import tkinter as tk
 from tkinter import filedialog
 import csv
 from PIL import Image, ImageTk
-
-
-class ButtonNamePrompt:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Specify Button Names")
-        self.button_names = None
-
-        self.label = tk.Label(root, text="Enter Button Names (comma-separated):")
-        self.label.pack()
-
-        self.entry = tk.Entry(root, width=200)
-        self.entry.pack()
-
-        self.confirm_button = tk.Button(
-            root, text="Confirm", command=self.confirm_button_click
-        )
-        self.confirm_button.pack()
-
-    def confirm_button_click(self):
-        button_names = self.entry.get()
-        if button_names:
-            self.button_names = [name.strip() for name in button_names.split(",")]
-            self.root.destroy()
+import os
 
 
 class VideoPlayer:
@@ -42,9 +19,8 @@ class VideoPlayer:
 
         self.buttons = button_names
         self.button_states = {}
-        self.frame_data_list = (
-            []
-        )  # Initialize a list to store frame data (list is better than dict to have sorted data by precedence)
+        # Initialize a list to store frame data (list is better than dict to have sorted data by precedence)
+        self.frame_data_list = []
 
         self.create_widgets()
         self.update_frame()
@@ -279,11 +255,13 @@ if __name__ == "__main__":
     root.title("Annotate Video")
     root.geometry("1000x600")
 
-    # Create a separate prompt window for specifying button names
-    button_name_prompt = ButtonNamePrompt(tk.Toplevel(root))
-    root.wait_window(button_name_prompt.root)
-
-    if button_name_prompt.button_names:
-        player = VideoPlayer(root, button_name_prompt.button_names)
-
+    if os.path.exists("buttons.txt"):
+        with open("buttons.txt", "r") as file:
+            button_names = [name.strip() for name in file.read().split(",")]
+        player = VideoPlayer(root, button_names)
         root.mainloop()
+    else:
+        print(
+            "No 'buttons.txt' file found. Please create one with comma-separated button names."
+        )
+        button_names = []
