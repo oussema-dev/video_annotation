@@ -15,7 +15,8 @@ class VideoPlayer:
         self.frame_number = 0
         self.frame_total = 0
         self.play = False
-        self.frame_skip = 1  # Initialize frame skip to 1 (normal speed)
+        # Initialize frame skip to 1 (normal speed)
+        self.frame_skip = 1
 
         self.buttons = button_names
         self.button_states = {}
@@ -149,9 +150,12 @@ class VideoPlayer:
             self.cap = cv2.VideoCapture(video_file)
             self.frame_total = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
             self.frame_number = 0
-            self.browse_button.grid_forget()  # Hide the "Open Video File" button
-            self.show_standard_buttons()  # Show the standard buttons
-            self.show_seconds_input()  # Show seconds input and skip buttons
+            # Hide the "Open Video File" button
+            self.browse_button.grid_forget()
+            # Show the standard buttons
+            self.show_standard_buttons()
+            # Show seconds input and skip buttons
+            self.show_seconds_input()
             self.update_frame()
 
     def toggle_play(self):
@@ -243,6 +247,25 @@ class VideoPlayer:
                 cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 self.photo = ImageTk.PhotoImage(image=Image.fromarray(cv2image))
                 self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+
+                elapsed_time_seconds = self.frame_number / self.cap.get(
+                    cv2.CAP_PROP_FPS
+                )
+                minutes = int(elapsed_time_seconds) // 60
+                seconds = int(elapsed_time_seconds) % 60
+                milliseconds = int(
+                    (elapsed_time_seconds - int(elapsed_time_seconds)) * 1000
+                )
+
+                self.elapsed_time_label = tk.Label(
+                    self.canvas,
+                    text=f"Elapsed Time: {minutes:02d}:{seconds:02d}:{milliseconds:03d}",
+                    background="white",
+                )
+                self.canvas.create_window(
+                    10, 10, anchor=tk.NW, window=self.elapsed_time_label
+                )
+
                 if self.play:
                     self.frame_number += self.frame_skip
                     if self.frame_number >= self.frame_total:
