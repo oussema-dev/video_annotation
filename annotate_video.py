@@ -17,7 +17,6 @@ class VideoPlayer:
         self.play = False
         # Initialize frame skip to 1 (normal speed)
         self.frame_skip = 1
-
         self.buttons = button_names
         self.button_states = {}
         # Initialize a list to store frame data (list is better than dict to have sorted data by precedence)
@@ -27,35 +26,50 @@ class VideoPlayer:
         self.update_frame()
 
     def create_widgets(self):
+        
         # Left part (video canvas and standard buttons)
         left_frame = tk.Frame(self.root)
         left_frame.pack(side=tk.LEFT)
 
-        self.canvas = tk.Canvas(left_frame, width=640, height=480)
+        # Display the video name at the top-left corner
+        video_name_frame = tk.Frame(left_frame)
+        video_name_frame.pack(anchor=tk.NW, padx=10, pady=10)
+
+        self.video_name_label = tk.Label(
+            video_name_frame, text="", font=("Helvetica", 14)
+        )
+        self.video_name_label.pack()
+
+        self.canvas = tk.Canvas(left_frame, width=720, height=480)
         self.canvas.pack()
 
         self.button_frame = tk.Frame(left_frame)
         self.button_frame.pack()
 
+        self.elapsed_time_label = tk.Label(
+            self.button_frame, text="Elapsed Time: 00:00:000", font=("Helvetica", 12)
+        )
+        self.elapsed_time_label.grid(row=0, column=0, padx=10, pady=5)
+
         self.play_button = tk.Button(
             self.button_frame, text="Play", command=self.toggle_play
         )
-        self.play_button.grid(row=0, column=0, padx=5, pady=5)
+        self.play_button.grid(row=0, column=1, padx=5, pady=5)
 
         self.prev_button = tk.Button(
             self.button_frame, text="Previous Frame", command=self.prev_frame
         )
-        self.prev_button.grid(row=0, column=1, padx=5, pady=5)
+        self.prev_button.grid(row=0, column=2, padx=5, pady=5)
 
         self.next_button = tk.Button(
             self.button_frame, text="Next Frame", command=self.next_frame
         )
-        self.next_button.grid(row=0, column=2, padx=5, pady=5)
+        self.next_button.grid(row=0, column=3, padx=5, pady=5)
 
         self.save_button = tk.Button(
             self.button_frame, text="Save to CSV", command=self.save_to_csv
         )
-        self.save_button.grid(row=0, column=3, padx=5, pady=5)
+        self.save_button.grid(row=0, column=4, padx=5, pady=5)
 
         self.browse_button = tk.Button(
             self.button_frame, text="Open Video File", command=self.browse_for_video
@@ -123,6 +137,7 @@ class VideoPlayer:
         self.speed_decrease_button.pack_forget()
         self.speed_increase_button.pack_forget()
         self.speed_label.pack_forget()
+        self.elapsed_time_label.grid_remove()
 
     def show_standard_buttons(self):
         self.play_button.grid()
@@ -132,6 +147,7 @@ class VideoPlayer:
         self.speed_decrease_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.speed_increase_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.speed_label.pack(side=tk.LEFT, padx=5, pady=5)
+        self.elapsed_time_label.grid()
 
     def hide_seconds_input(self):
         self.skip_backward_button.pack_forget()
@@ -150,6 +166,8 @@ class VideoPlayer:
             self.cap = cv2.VideoCapture(video_file)
             self.frame_total = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
             self.frame_number = 0
+            # Update the opened video name
+            self.video_name_label.config(text=f"Video: {os.path.basename(video_file)}")
             # Hide the "Open Video File" button
             self.browse_button.grid_forget()
             # Show the standard buttons
@@ -243,7 +261,7 @@ class VideoPlayer:
             self.cap.set(cv2.CAP_PROP_POS_FRAMES, self.frame_number)
             ret, frame = self.cap.read()
             if ret:
-                frame = cv2.resize(frame, (640, 480))
+                frame = cv2.resize(frame, (720, 480))
                 cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 self.photo = ImageTk.PhotoImage(image=Image.fromarray(cv2image))
                 self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
@@ -256,14 +274,8 @@ class VideoPlayer:
                 milliseconds = int(
                     (elapsed_time_seconds - int(elapsed_time_seconds)) * 1000
                 )
-
-                self.elapsed_time_label = tk.Label(
-                    self.canvas,
-                    text=f"Elapsed Time: {minutes:02d}:{seconds:02d}:{milliseconds:03d}",
-                    background="white",
-                )
-                self.canvas.create_window(
-                    10, 10, anchor=tk.NW, window=self.elapsed_time_label
+                self.elapsed_time_label.config(
+                    text=f"Elapsed Time: {minutes:02d}:{seconds:02d}:{milliseconds:03d}"
                 )
 
                 if self.play:
@@ -276,7 +288,7 @@ class VideoPlayer:
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Annotate Video")
-    root.geometry("1000x600")
+    root.geometry("1280x720")
 
     if os.path.exists("buttons.txt"):
         with open("buttons.txt", "r") as file:
