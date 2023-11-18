@@ -26,7 +26,6 @@ class VideoPlayer:
         self.update_frame()
 
     def create_widgets(self):
-        
         # Left part (video canvas and standard buttons)
         left_frame = tk.Frame(self.root)
         left_frame.pack(side=tk.LEFT)
@@ -39,6 +38,17 @@ class VideoPlayer:
             video_name_frame, text="", font=("Helvetica", 14)
         )
         self.video_name_label.pack()
+
+        # Display the key bindings at the top-left corner
+        key_bindings_frame = tk.Frame(left_frame)
+        key_bindings_frame.pack(anchor=tk.NW, padx=10, pady=15)
+
+        self.key_bindings = tk.Label(
+            key_bindings_frame,
+            text="",
+            font=("Helvetica", 12),
+        )
+        self.key_bindings.pack()
 
         self.canvas = tk.Canvas(left_frame, width=720, height=480)
         self.canvas.pack()
@@ -126,8 +136,15 @@ class VideoPlayer:
                 right_frame,
                 text=button_text,
                 command=lambda text=button_text: self.store_frame(text),
+                bd=3,  # Border width
+                highlightthickness=1,  # Highlight thickness (border)
             )
             custom_button.pack(fill=tk.BOTH, expand=True)
+
+        # Add key bindings
+        self.root.bind("<space>", self.toggle_play)
+        self.root.bind("<Up>", self.increase_speed)
+        self.root.bind("<Down>", self.decrease_speed)
 
     def hide_standard_buttons(self):
         self.play_button.grid_remove()
@@ -168,6 +185,10 @@ class VideoPlayer:
             self.frame_number = 0
             # Update the opened video name
             self.video_name_label.config(text=f"Video: {os.path.basename(video_file)}")
+            # Display key bindings
+            self.key_bindings.config(
+                text="Play/Pause: space | Increase speed: Up arrow | Decrease speed: Down arrow"
+            )
             # Hide the "Open Video File" button
             self.browse_button.grid_forget()
             # Show the standard buttons
@@ -176,7 +197,7 @@ class VideoPlayer:
             self.show_seconds_input()
             self.update_frame()
 
-    def toggle_play(self):
+    def toggle_play(self, event=None):
         self.play = not self.play
         if self.play:
             self.play_button.config(text="Pause")
@@ -220,29 +241,32 @@ class VideoPlayer:
             self.frame_number = new_frame_number
             self.update_frame()
 
-    def increase_speed(self):
+    def increase_speed(self, event=None):
         if self.frame_skip < 10:
             self.frame_skip += 1
             self.speed_label.config(text=f"Video Speed = {self.frame_skip}")
 
-    def decrease_speed(self):
+    def decrease_speed(self, event=None):
         if self.frame_skip > 1:
             self.frame_skip -= 1
             self.speed_label.config(text=f"Video Speed = {self.frame_skip}")
 
     def store_frame(self, button_text):
         self.button_states[button_text] = self.frame_number
-        time_in_seconds = self.frame_number / self.cap.get(cv2.CAP_PROP_FPS)
-        time_in_milliseconds = int(time_in_seconds * 1000)
-        frame_data = {
-            "Button": button_text,
-            "Frame Number": self.frame_number,
-            "Time (ms)": time_in_milliseconds,
-        }
-        self.frame_data_list.append(frame_data)
-        print(
-            f"Stored frame {self.frame_number} for button '{button_text}' at time {time_in_milliseconds} ms"
-        )
+        try:
+            time_in_seconds = self.frame_number / self.cap.get(cv2.CAP_PROP_FPS)
+            time_in_milliseconds = int(time_in_seconds * 1000)
+            frame_data = {
+                "Button": button_text,
+                "Frame Number": self.frame_number,
+                "Time (ms)": time_in_milliseconds,
+            }
+            self.frame_data_list.append(frame_data)
+            print(
+                f"Stored frame {self.frame_number} for button '{button_text}' at time {time_in_milliseconds} ms"
+            )
+        except AttributeError:
+            print("no frame number existing")
 
     def save_to_csv(self):
         csv_file = filedialog.asksaveasfilename(
