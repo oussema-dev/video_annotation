@@ -1,3 +1,37 @@
+"""
+Video annotation tool
+The tool is designed to facilitate the manual annotation of video segments through a simple GUI
+
+Developer: Oussama Jlassi
+
+Features:
+
+Play/Pause
+- Use the "Play" button or "Space key" to start playing the video.
+- Use the "Pause" button or "Space key" to pause the video playback.
+
+Next Frame
+- Click the "Next Frame" button to advance to the next frame in the video.
+
+Previous Frame
+- Click the "Previous Frame" button to go back to the previous frame in the video.
+
+Skip Seconds
+- Enter the number of seconds you want to skip in the input field provided.
+- Click "Skip Forward" to jump forward in the video by the specified number of seconds.
+- Click "Skip Backward" to go back in the video by the specified number of seconds.
+
+Increase/Decrease Speed
+- You can control the speed of video playback.
+- Use the "Increase Speed" button or "UP arrow" to speed up the video playback.
+- Use the "Decrease Speed" button or "Down arrow" to slow down the video playback.
+
+Save Annotations to CSV
+- Click the "Save to CSV" button to save all annotations to a CSV file.
+- The CSV file contains columns for Button (label), Frame Number, and Time (in milliseconds).
+
+"""
+
 import cv2
 import tkinter as tk
 from tkinter import filedialog
