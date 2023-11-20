@@ -3,9 +3,13 @@
 ## Overview
 This Python application is designed to annotate sections of a video with the desired classes or labels. The annotations are saved to a CSV file for later analysis.
 
+## Statement of need
+The manual annotation and labelling of specific moments (events) within a video file is a crucial step in several data processing pipelines, including the creation of machine learning training datasets. In the landscape of open-source tools, there exists a notable absence of readily available software solely dedicated to labelling key moments within videos. Our tool provides a user-friendly environment for marking key moments within video sequences.  
+
 ## Getting Started
 
-### Prerequisites
+### Installation instructions
+Make sure you have conda installed and added to the path properly
 Before running the application, follow the next steps to create an environment using conda and install the required dependecies:
 
 From the terminal, `cd` to `video_annotation`, then run the following commands:
@@ -14,17 +18,20 @@ From the terminal, `cd` to `video_annotation`, then run the following commands:
 - `pip install -r requirements.txt`
 
 ### Usage
-To start the application, open your terminal and run the following command from the project directory:
+To start the application, open your terminal and run the following command from the project root directory:
 ```bash
 python annotate_video.py
 ```
 Note that you should have a file called `buttons.txt` where you specify the desired button names for your use case.
 
-## Features
+## Example usage
+The graphical user interface should show a button to open a video file, choose the provided video example and start annotating the different moments where the participant makes first and last contact with each surface. 
+![Surfaces](example.jpg)
+When done annotating, click the `Save to CSV` button to save the annotation. The tool offers the follwoing features:
 
 ### Play/Pause
-- Use the "Play" button to start playing the video.
-- Use the "Pause" button to pause the video playback.
+- Use the "Play" button or "Space key" to start playing the video.
+- Use the "Pause" button or "Space key" to pause the video playback.
 
 ### Next Frame
 - Click the "Next Frame" button to advance to the next frame in the video.
@@ -39,8 +46,8 @@ Note that you should have a file called `buttons.txt` where you specify the desi
 
 ### Increase/Decrease Speed
 - You can control the speed of video playback.
-- Use the "Increase Speed" button to speed up the video playback.
-- Use the "Decrease Speed" button to slow down the video playback.
+- Use the "Increase Speed" button or "UP arrow" to speed up the video playback.
+- Use the "Decrease Speed" button or "Down arrow" to slow down the video playback.
 
 ### Save Annotations to CSV
 - Click the "Save to CSV" button to save all annotations to a CSV file.
