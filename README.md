@@ -1,7 +1,8 @@
 # Video Annotation Tool
 
 ## Overview
-This Python application is designed to annotate sections of a video with the desired classes or labels. The annotations are saved to a CSV file for later analysis.
+This Python application is designed to annotate sections of a video with the desired classes or labels.  
+The annotations are saved to a CSV file for later analysis.
 
 ## Statement of need
 The manual annotation and labelling of specific moments (events) within a video file is a crucial step in several data processing pipelines, including the creation of machine learning training datasets. In the landscape of open-source tools, there exists a notable absence of readily available software solely dedicated to labelling key moments within videos. Our tool provides a user-friendly environment for marking key moments within video sequences.  
@@ -9,7 +10,7 @@ The manual annotation and labelling of specific moments (events) within a video 
 ## Getting Started
 
 ### Installation instructions
-Make sure you have conda installed and added to the path properly
+Make sure you have conda installed and added to the path properly.  
 Before running the application, follow the next steps to create an environment using conda and install the required dependecies:
 
 From the terminal, `cd` to `video_annotation`, then run the following commands:
@@ -27,7 +28,8 @@ Note that you should have a file called `buttons.txt` where you specify the desi
 ## Example usage
 The graphical user interface should show a button to open a video file, choose the provided video example and start annotating the different moments where the participant makes first and last contact with each surface. 
 ![Surfaces](example.jpg)
-When done annotating, click the `Save to CSV` button to save the annotation. The tool offers the follwoing features:
+When done annotating, click the `Save to CSV` button to save the annotations.  
+The tool offers the follwoing features:
 
 ### Play/Pause
 - Use the "Play" button or "Space key" to start playing the video.
