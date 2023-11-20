@@ -1,119 +1,87 @@
 ---
-title: 'Gala: A Python package for galactic dynamics'
+title: 'An open source video annotation tool'
 tags:
   - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - OpenCV
+  - GUI
+  - Tkinter
+  - Video annotation
 authors:
-  - name: Adrian M. Price-Whelan
-    orcid: 0000-0000-0000-0000
-    equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+  - name: Oussama Jlassi
+    corresponding: true
+    affiliation: 1
+  - name: Philippe C. Dixon
+    orcid: 0000-0003-3581-7259
     affiliation: 2
-  - name: Author with no affiliation
-    corresponding: true # (This is how to denote the corresponding author)
-    affiliation: 3
-  - given-names: Ludwig
-    dropping-particle: van
-    surname: Beethoven
-    affiliation: 3
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Department of Computer Science and Operations Research, Université de Montréal, Montréal, Québec, Canada
    index: 1
- - name: Institution Name, Country
+ - name: Department of Kinesiology and Physical Activity, McGill University, Montreal, Québec, Canada
    index: 2
- - name: Independent Researcher, Country
-   index: 3
-date: 13 August 2017
+date: 20 November 2023
 bibliography: paper.bib
-
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+The manual annotation and labelling of specific moments (events) within a video file
+is a crucial step in several data processing pipelines, including the creation of 
+machine learning training datasets. The software presented herein [@software] is developed 
+using the Python programming language (v3.11) and generates comma separated files 
+containing event names and timing (frame number and absolute time) from MP4 video files. 
+Whether used in academic research or other multimedia-related fields, this tool allows 
+users to efficiently and reliably annotate event data.
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+In the landscape of open-source tools, there exists a notable absence of readily available
+software solely dedicated to labelling key moments within videos. A related tool, entitled 
+`MaD GUI` [@madgui], provides graphical annotation and computational analysis of time 
+series data; however, it is difficult to annotate specific class events from a video. 
+`MaD GUI` offers a wide range of features but lacks the simplicity and straightforwardness 
+of our tool which provides a user-friendly environment for marking key moments within 
+video sequences. Other tools, which (a) focus on the annotation of entire images or sections
+of images, such as `labellmg` [@labelimg] or (b) are commercially available such as 
+`Encord` [@encord] are not reviewed here as they do not address the stated need or are not
+open-source.  
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+# Content
 
-# Mathematics
+This software incorporates a multitude of features tailored to streamline the annotation 
+process. It harnesses the capabilities of Python libraries such as `OpenCV` [@opencv] for 
+video manipulation and `tkinter` [@tkinter] for the user interface. Users are provided with 
+functionalities allowing video playback, frame navigation, skip options, speed adjustments, and 
+the ability to add custom annotations to specified moments. The graphical user interface offers 
+a straightforward design, rendering it accessible to users with varying levels of technical expertise. 
 
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
+# Impact
 
-Double dollars make self-standing equations:
+By enabling users to label and categorize significant moments within video content 
+effortlessly, the tool speeds up data creation, analysis, and interpretation. Its simplicity and 
+efficiency significantly reduce the time and effort required for annotating videos. 
 
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
+# Ongoing research using this software
 
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
+This software constitutes an integral component of our ongoing research project which is focused on
+human movement analysis, wherein its application is pivotal for the manual annotation of video footage. 
+This annotation process is integral to a comprehensive study involving participants navigating diverse 
+terrain surfaces while equipped with Inertial Measurement Unit (IMU) sensors. The primary objective 
+is to synchronize the acquired sensor data with precise segments of the participants' walking on each 
+distinct surface. The resulting synchronized dataset will serve as a foundational resource for the 
+subsequent development and training of machine learning models. These models, once established, are 
+anticipated to predict the different walking surfaces. 
 
-# Citations
+# Future Work 
 
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
+Looking ahead, potential enhancements for the tool could include the integration of a slider within 
+the video player, offering users a more intuitive and fine-grained control over frame selection. 
+Additionally, optimizing the software's performance through the implementation of threading mechanisms 
+could significantly improve its speed and responsiveness. 
 
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
+# Acknowledgements  
 
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
-
-# Acknowledgements
-
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+PCD acknowledges support from the fonds de recherche Québec Santé (FRQS) research scholar award 
+(Junior 1) and funding from the Natural Sciences and Engineering Research Council of Canada (NSERC) 
+discovery grant program (RGPIN-2022-04217).
 
 # References
