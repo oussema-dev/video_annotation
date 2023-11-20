@@ -18,7 +18,7 @@ From the terminal, `cd` to `video_annotation`, then run the following commands:
 - `conda activate annotate`
 - `pip install -r requirements.txt`
 
-### Usage
+### Running the software
 To start the application, open your terminal and run the following command from the project root directory:
 ```bash
 python annotate_video.py
