@@ -27,7 +27,7 @@ bibliography: paper.bib
 
 The manual annotation and labelling of specific moments (events) within a video file
 is a crucial step in several data processing pipelines, including the creation of 
-machine learning training datasets. The software presented herein [@software] is developed 
+machine learning training datasets. The software presented herein is developed 
 using the Python programming language (v3.11) and generates comma separated files 
 containing event names and timing (frame number and absolute time) from MP4 video files. 
 Whether used in academic research or other multimedia-related fields, this tool allows 
